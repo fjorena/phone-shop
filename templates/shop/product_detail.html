@@ -81,7 +81,7 @@
 </div>
 
 <!-- ─── Rating summary ─── -->
-<div class="detail-panel mb-4">
+<div class="detail-panel detail-panel--rating mb-4">
     <h5>Product Rating</h5>
     <div class="d-flex align-items-center gap-3">
         <div class="stars">
@@ -100,7 +100,7 @@
 
 <!-- ─── Write a review ─── -->
 {% if user.is_authenticated and not user_has_reviewed %}
-<div class="detail-panel mb-4">
+<div class="detail-panel detail-panel--review mb-4">
     <h5>Write a Review</h5>
     <form method="POST" action="{% url 'shop:add_review' product.id %}" class="form-dark">
         {% csrf_token %}

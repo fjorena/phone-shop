@@ -24,41 +24,38 @@
 
         <div class="collapse navbar-collapse" id="navMain">
 
-            <!-- Search -->
-            <form class="d-flex mx-auto my-2 my-lg-0" method="GET" action="{% url 'shop:search' %}">
-                <input class="search-input me-2"
-                       type="search" name="q"
-                       placeholder="Search products..."
-                       value="{{ request.GET.q }}">
-                <button class="btn-accent" type="submit">Search</button>
-            </form>
-
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
-
+            <!-- Center: nav links -->
+            <ul class="navbar-nav mx-auto align-items-lg-center gap-1">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'shop:home' %}">Home</a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'shop:cart' %}">
                         🛒 Cart
-                        {% if cart_count > 0 %}
-                            <span class="cart-badge">{{ cart_count }}</span>
-                        {% endif %}
+                        {% if cart_count > 0 %}<span class="cart-badge">{{ cart_count }}</span>{% endif %}
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'shop:about' %}">About</a>
                 </li>
+            </ul>
+
+            <!-- Right: search + auth -->
+            <div class="navbar-right d-flex align-items-center gap-2">
+
+                <form class="d-flex" method="GET" action="{% url 'shop:search' %}">
+                    <input class="search-input me-1"
+                           type="search" name="q"
+                           placeholder="Search products..."
+                           value="{{ request.GET.q }}">
+                    <button class="btn-search" type="submit">Search</button>
+                </form>
 
                 {% if user.is_authenticated %}
                     {% if user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/" target="_blank">Admin Panel</a>
-                    </li>
+                    <a class="nav-link" href="/admin/" target="_blank">Admin</a>
                     {% endif %}
-                    <li class="nav-item dropdown">
+                    <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#"
                            role="button" data-bs-toggle="dropdown">
                             👤 {{ user.username }}
@@ -73,18 +70,14 @@
                                 </form>
                             </li>
                         </ul>
-                    </li>
+                    </div>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
-                    </li>
-                    <li class="nav-item ms-1">
-                        <a class="btn-accent text-decoration-none px-3 py-2 rounded"
-                           href="{% url 'accounts:register' %}">Register</a>
-                    </li>
+                    <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                    <a class="btn-register text-decoration-none"
+                       href="{% url 'accounts:register' %}">Register</a>
                 {% endif %}
 
-            </ul>
+            </div>
         </div>
     </div>
 </nav>
