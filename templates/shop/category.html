@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} – Electronic Shop{% endblock %}
+
+{% block content %}
+
+<div class="category-header">
+    <div class="d-flex align-items-center gap-3 mb-2">
+        <a href="{% url 'shop:home' %}" class="back-link">← Home</a>
+    </div>
+    <h1>{{ category.name }}</h1>
+    {% if category.description %}
+    <p>{{ category.description }}</p>
+    {% endif %}
+</div>
+
+{% if products %}
+<div class="row g-4">
+    {% for product in products %}
+    <div class="col-md-4">
+        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+            <div class="card">
+                {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                <div class="card-img-top d-flex align-items-center justify-content-center"
+                     style="background:#e9ecef; font-size:3rem;">📦</div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description|truncatechars:90 }}</p>
+                    {% if product.stock > 0 %}
+                        <span class="stock-badge in-stock">In Stock ({{ product.stock }})</span>
+                    {% else %}
+                        <span class="stock-badge out-stock">Out of Stock</span>
+                    {% endif %}
+                </div>
+                <div class="card-footer-accent">
+                    <span class="card-price">${{ product.price }}</span>
+                    <span class="card-cta">View Details →</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon">📦</div>
+    <h4 style="color:var(--text-light);">No products in this category yet.</h4>
+</div>
+{% endif %}
+
+{% endblock %}

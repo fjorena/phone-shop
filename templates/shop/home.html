@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Electronic Shop – Home{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<div class="hero-banner">
+    <h1>⚡ Electronic Shop</h1>
+    <p>Discover the latest smartphones, laptops, and accessories at the best prices.</p>
+    <a href="{% url 'shop:search' %}" class="btn-accent text-decoration-none px-4 py-2 rounded mt-3 d-inline-block">
+        Browse Products
+    </a>
+</div>
+
+<!-- Categories -->
+<h2 class="section-title">Shop by Category</h2>
+<div class="row g-4 mb-5">
+    {% for category in categories %}
+    <div class="col-md-4">
+        <a href="{% url 'shop:category' category.slug %}" class="text-decoration-none">
+            <div class="card">
+                {% if category.image %}
+                <img src="{{ category.image.url }}"
+                     class="card-img-top" alt="{{ category.name }}">
+                {% else %}
+                <div class="card-img-top d-flex align-items-center justify-content-center"
+                     style="background:#e9ecef; font-size:3rem;">📦</div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ category.name }}</h5>
+                    <p class="card-text">{{ category.description }}</p>
+                </div>
+                <div class="card-footer-accent">
+                    <span class="card-cta">Explore →</span>
+                    <small style="color:#999;">{{ category.products.count }} products</small>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <p class="text-center" style="color:var(--text-muted);">No categories yet.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Featured Products -->
+{% if featured_products %}
+<h2 class="section-title">Latest Products</h2>
+<div class="row g-4">
+    {% for product in featured_products %}
+    <div class="col-md-4">
+        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+            <div class="card">
+                {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                <div class="card-img-top d-flex align-items-center justify-content-center"
+                     style="background:#e9ecef; font-size:3rem;">📱</div>
+                {% endif %}
+                <div class="card-body">
+                    <small style="color:#f4a228; font-weight:600;">{{ product.category.name }}</small>
+                    <h5 class="card-title mt-1">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description|truncatechars:75 }}</p>
+                </div>
+                <div class="card-footer-accent">
+                    <span class="card-price">${{ product.price }}</span>
+                    <span class="card-cta">View →</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

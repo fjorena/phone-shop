@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Register – Electronic Shop{% endblock %}
+
+{% block content %}
+<div class="auth-card" style="max-width:500px;">
+    <h2>📝 Register</h2>
+    <form method="POST" class="form-dark">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label-dark" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <input type="{{ field.field.widget.input_type }}"
+                   name="{{ field.html_name }}"
+                   id="{{ field.id_for_label }}"
+                   class="form-control-dark d-block"
+                   style="width:100%; padding:10px 14px;"
+                   {% if field.value %}value="{{ field.value }}"{% endif %}
+                   {% if field.field.required %}required{% endif %}>
+            {% if field.help_text %}
+            <small style="color:var(--text-muted); display:block; margin-top:4px;">{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+            <small style="color:#d07070; display:block; margin-top:4px;">{{ field.errors|join:", " }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-accent py-2 mt-2" style="width:100%;">
+            Create Account
+        </button>
+    </form>
+    <p class="text-center mt-4" style="color:var(--text-muted);">
+        Already have an account?
+        <a href="{% url 'accounts:login' %}" style="color:var(--accent); font-weight:600;">Login here</a>
+    </p>
+</div>
+{% endblock %}

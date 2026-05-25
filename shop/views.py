@@ -62,7 +62,7 @@ class CartView(LoginRequiredMixin, TemplateView):
 
 
 class SearchView(TemplateView):
-    template_name = 'shop/search.html'
+    template_name = 'shop/search_results.html'
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart – Electronic Shop{% endblock %}
+
+{% block content %}
+
+<h2 class="section-title">🛒 Shopping Cart</h2>
+
+{% if items %}
+<div class="cart-table-wrap mb-3">
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center gap-3">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}"
+                             class="cart-product-img" alt="{{ item.product.name }}">
+                        {% endif %}
+                        <div>
+                            <a href="{{ item.product.get_absolute_url }}"
+                               style="color:var(--accent); font-weight:600; text-decoration:none;">
+                                {{ item.product.name }}
+                            </a>
+                            <br>
+                            <small style="color:var(--text-muted);">{{ item.product.category.name }}</small>
+                        </div>
+                    </div>
+                </td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td style="color:var(--accent); font-weight:700;">${{ item.subtotal }}</td>
+                <td>
+                    <form method="POST" action="{% url 'shop:remove_from_cart' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-danger-sm">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="cart-total-row">
+    <span class="cart-total-label">Total ({{ cart.total_items }} item{{ cart.total_items|pluralize }}):</span>
+    <span class="cart-total-value">${{ cart.total_price }}</span>
+</div>
+
+<div class="d-flex justify-content-between mt-4">
+    <a href="{% url 'shop:home' %}" class="btn-outline-light px-4 py-2 text-decoration-none">
+        ← Continue Shopping
+    </a>
+    <button class="btn-accent px-4 py-2">Proceed to Checkout</button>
+</div>
+
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon">🛒</div>
+    <h4 style="color:var(--text-light);">Your cart is empty.</h4>
+    <p>Discover our products and add them to your cart.</p>
+    <a href="{% url 'shop:home' %}" class="btn-accent text-decoration-none px-4 py-2 rounded mt-2 d-inline-block">
+        Browse Products
+    </a>
+</div>
+{% endif %}
+
+{% endblock %}

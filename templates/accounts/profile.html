@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile – Electronic Shop{% endblock %}
+
+{% block content %}
+<div class="auth-card" style="max-width:520px;">
+    <h2>👤 My Profile</h2>
+    <div class="detail-panel">
+        <h5>Account Info</h5>
+        <p><strong style="color:var(--text-light);">Username:</strong>
+           <span style="color:var(--accent);">{{ user.username }}</span></p>
+        <p><strong style="color:var(--text-light);">Email:</strong>
+           {{ user.email|default:"—" }}</p>
+        <p><strong style="color:var(--text-light);">Member since:</strong>
+           {{ user.date_joined|date:"d M Y" }}</p>
+    </div>
+    <div class="d-flex gap-3 mt-3">
+        <a href="{% url 'shop:cart' %}" class="btn-accent px-4 py-2 text-decoration-none">View Cart</a>
+        <form method="POST" action="{% url 'accounts:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-outline-light px-4 py-2">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
