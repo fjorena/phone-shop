@@ -53,12 +53,12 @@
 
                 {% if user.is_authenticated %}
                     {% if user.is_staff %}
-                    <a class="nav-link" href="/admin/" target="_blank">Admin</a>
+                    <a class="nav-link" href="/admin/" target="_blank">⚙ Admin Panel</a>
                     {% endif %}
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#"
                            role="button" data-bs-toggle="dropdown">
-                            👤 {{ user.username }}
+                            👤 Hello, {{ user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">My Profile</a></li>
@@ -66,7 +66,7 @@
                             <li>
                                 <form method="POST" action="{% url 'accounts:logout' %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="dropdown-item">Logout</button>
+                                    <button type="submit" class="dropdown-item">🚪 Logout</button>
                                 </form>
                             </li>
                         </ul>

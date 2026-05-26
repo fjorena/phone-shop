@@ -23,9 +23,9 @@
 
 {% if query %}
     {% if results %}
-    <p style="color:var(--text-muted); margin-bottom:20px;">
-        Found <strong style="color:var(--accent);">{{ results|length }}</strong>
-        product{{ results|length|pluralize }} matching "{{ query }}".
+    <p style="color:var(--text-dim); margin-bottom:20px;">
+        Found <strong style="color:var(--orange);">{{ total_count }}</strong>
+        product{{ total_count|pluralize }} matching "{{ query }}".
     </p>
     <div class="row g-4">
         {% for product in results %}
@@ -53,10 +53,29 @@
         </div>
         {% endfor %}
     </div>
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination-wrap mt-4">
+        {% if page_obj.has_previous %}
+        <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}" class="page-btn">← Prev</a>
+        {% endif %}
+        {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+            <span class="page-btn page-btn--active">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?q={{ query }}&page={{ num }}" class="page-btn">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a href="?q={{ query }}&page={{ page_obj.next_page_number }}" class="page-btn">Next →</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
     {% else %}
     <div class="empty-state">
         <div class="empty-icon">🔍</div>
-        <h4 style="color:var(--text-light);">No results found for "{{ query }}".</h4>
+        <h4 style="color:var(--text-lt);">No results found for "{{ query }}".</h4>
         <p>Try different keywords or browse our categories.</p>
         <a href="{% url 'shop:home' %}"
            class="btn-accent text-decoration-none px-4 py-2 rounded mt-2 d-inline-block">

@@ -492,11 +492,42 @@ img { display: block; max-width: 100%; }
 
 /* Stars */
 .star-full  { color: var(--yellow); font-size: 1.3rem; }
+.star-half  { color: var(--yellow); font-size: 1.3rem; opacity: .6; }
 .star-empty { color: #3a4a5a;       font-size: 1.3rem; }
+.stars-display .star-full,
+.stars-display .star-half,
+.stars-display .star-empty { font-size: 1.5rem; }
 .stars .star-full,
+.stars .star-half,
 .stars .star-empty { font-size: 1.1rem; }
 .ms-3.stars .star-full,
 .ms-3.stars .star-empty { font-size: 1rem; }
+
+/* Pagination */
+.pagination-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.page-btn {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 7px;
+  border: 1.5px solid rgba(255,255,255,.15);
+  color: var(--text-lt);
+  font-size: .9rem;
+  font-weight: 500;
+  transition: border-color .15s, background .15s;
+  text-decoration: none;
+}
+.page-btn:hover { border-color: var(--orange); color: var(--orange); }
+.page-btn--active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+  font-weight: 700;
+}
 
 /* ── Reviews list ─────────────────────────── */
 .review-item {
